@@ -1,12 +1,14 @@
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: ${{values.app_name}}
-  description: Python app that displays time - named ${{values.app_name}}
+  name: ${{values.app_name}}                   # The name of the component, which is used as a unique identifier within Backstage.
+  description: Local Fast API service. - named ${{values.app_name}}
+  # Example for optional annotations
   annotations:
-    github.com/project-slug: shuklamanasazure/${{values.app_name}}
-    backstage.io/techdocs-ref: dir:.
+     github.com/project-slug: shuklamanasazure/${{values.app_name}} # The GitHub repository where the source code for this component is stored.
+     backstage.io/techdocs-ref: dir:. 
+     # The location of the documentation for this component, which is used by Backstage TechDocs to generate the documentation site. In this case, the documentation is located in the docs directory
 spec:
   type: service
-  owner: development-team
+  owner: development-team # Name of The Group or User responsible for this component. This is used to determine who to contact for support or questions about the component.
   lifecycle: experimental

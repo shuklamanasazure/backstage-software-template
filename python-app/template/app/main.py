@@ -1,0 +1,24 @@
+from fastapi import FastAPI  # Import the FastAPI application framework
+from pydantic import BaseModel  # Define validated response models
+import os  # Read runtime configuration from environment variables
+
+app = FastAPI(title="FastAPI Service")  # Create the API application
+
+class AppInfo(BaseModel):  # Define the response schema
+    name: str  # Application name
+    environment: str  # Deployment environment
+    message: str # Deployment message
+
+@app.get("/api/v1/info", response_model=AppInfo)  # Register an information endpoint
+def get_info():
+    return AppInfo(  # Return structured application metadata
+        #name="fastapi-service",
+        name=${{values.app_name}},  # Use application name from configuration
+        #environment=os.getenv("APP_ENV", "local"),  # Use environment configuration
+        environment=${{values.app_env}},
+        message="Deployed successfully :) via GH actions - Fixed write permission & Application name",
+    )
+
+@app.get("/api/v1/healthz")  # Register a lightweight health endpoint
+def health():
+    return {"status": "ok"}  # Return a simple health response
