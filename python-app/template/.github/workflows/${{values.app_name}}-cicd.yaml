@@ -71,13 +71,13 @@ jobs:
         run: |
           echo ${{needs.ci.outputs.commit_id}}
           python3 -mpip install yq
-          yq -Yi '.image.tag = "${{needs.ci.outputs.commit_id}}"' charts/${{values.app_name}}/values-${{values.app_env}}.yaml
+          yq -Yi '.image.tag = "${{'${{needs.ci.outputs.commit_id}}' }}"' charts/${{values.app_name}}/values-${{values.app_env}}.yaml
 
       # Commit the changed Helm values file so the repository records the new image tag.
       - name: Commit changes
         uses: EndBug/add-and-commit@v9
         with:
-          message: 'Updates values.yaml with commit ${{needs.ci.outputs.commit_id}}'
+          message: 'Updates values.yaml with commit ${{ '${{needs.ci.outputs.commit_id}}' }}'
 
       # Download the Argo CD CLI, make it executable, and install it on the runner's PATH.
       - name: Install argocd
