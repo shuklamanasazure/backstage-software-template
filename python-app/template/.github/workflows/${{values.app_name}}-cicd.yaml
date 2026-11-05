@@ -217,3 +217,12 @@ jobs:
 # 2. Application name was wrong suring the argocd app sync the /api/v1/info endpoint.
 # 3. The commit id was not being passed to the argocd app sync command, so the application was not being updated with the new image tag.
 # 4. pip was not installed on the self-hosted runner, so the yq command was failing to update the values.yaml file.
+
+
+#Your current workflow
+#1. Backstage creates repository.
+#2. GitHub Actions checks out the repository.
+#3. CI builds and publishes Docker image.
+#4. CD updates Helm values.
+#5. CD creates and approves PR.
+#6. GitHub merges and Argo CD syncs.

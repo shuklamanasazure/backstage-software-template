@@ -45,6 +45,16 @@ spec:
         repoUrl: github.com?owner=shuklamanasazure-backstage&repo=${{parameters.component_id}}
         defaultBranch: master
         repoVisibility: public
+        # Grant Write access to the automation reviewer team
+        collaborators:
+          - team: platform-automation
+            access: push
+
+        # Enable GitHub auto-merge
+        allowAutoMerge: true
+
+        # Require one approval before merging
+        requiredApprovingReviewCount: 1
 
     - id: register
       name: Register
