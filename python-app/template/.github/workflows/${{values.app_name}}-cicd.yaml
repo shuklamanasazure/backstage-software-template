@@ -163,7 +163,7 @@ jobs:
             --squash \
             --delete-branch
 
-      # 9. Wait until GitHub confirms that the PR has merged.
+      # 9. Wait until GitHub confirms that the PR has merged.  
       - name: Wait for PR merge
         env:
           GH_TOKEN: ${{ '${{ secrets.GH_PAT }}' }}
@@ -201,15 +201,40 @@ jobs:
           sudo mv ./argocd /usr/local/bin/argocd
 
       # Log in to Argo CD using the configured secret, then sync the fastapi-service application.
-      - name: Argocd app sync
+      - name: Argocd login
         shell: bash
         run: |
-          argocd login argocd-server.argocd \
+          argocd login argocd.test.com \
             --insecure  \
             --grpc-web \
             --username admin \
             --password  ${{ '${{ secrets.ARGOCD_PASSWORD }}' }}
-          argocd app sync argocd/${{values.app_name}}
+
+      - name: Ensure argocd repo and app
+        shell: bash
+        run: |
+
+          # Connects the argocd repo
+          repo="https://github.com/shuklamanasazure-backstage/${{values.app_name}}.git"
+          argocd repo list | grep -q $repo || argocd repo add $repo
+
+          # Creates the argocd app
+          argocd app get ${{values.app_name}} || argocd app create ${{values.app_name}} \
+            --repo $repo \
+            --path charts/${{values.app_name}} \
+            --dest-namespace ${{values.app_env}} \
+            --dest-server https://kubernetes.default.svc \
+            --values values-${{values.app_env}}.yaml \
+            --revision master \
+            --sync-policy manual \
+            --sync-option CreateNamespace=true
+
+      - name: Argocd app sync
+        shell: bash
+        run: |
+          argocd app sync ${{values.app_name}}
+          argocd app wait ${{values.app_name}} --timeout 180
+          
 
 # Few errors deal during the pipeline execution:
 # 1. Permission denied error while writing to the values.yaml file. 
