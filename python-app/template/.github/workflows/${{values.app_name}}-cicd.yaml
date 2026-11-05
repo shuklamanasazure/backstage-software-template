@@ -153,11 +153,10 @@ jobs:
         run: |
           gh pr review "${{ '${{ steps.create_pr.outputs.PR_URL }}' }}" --approve
 
-      # 8. Enable automatic merge. GitHub waits for required checks
-      # and approval before merging into master.
+      # 8. Enable automatic merge. GitHub waits for required checks and approval before merging into master.
       - name: Enable automatic PR merge
         env:
-          GH_TOKEN: ${{ '${{ secrets.GH_APPROVER_TOKEN }}' }}
+          GH_TOKEN: ${{ '${{ secrets.GH_PAT }}' }}
         run: |
           gh pr merge "${{ '${{ steps.create_pr.outputs.PR_URL }}' }}" \
             --auto \
@@ -167,7 +166,7 @@ jobs:
       # 9. Wait until GitHub confirms that the PR has merged.
       - name: Wait for PR merge
         env:
-          GH_TOKEN: ${{ '${{ secrets.GH_APPROVER_TOKEN }}' }}
+          GH_TOKEN: ${{ '${{ secrets.GH_PAT }}' }}
           PR_URL: ${{ '${{ steps.create_pr.outputs.PR_URL }}' }}
         shell: bash
         run: |
@@ -220,7 +219,7 @@ jobs:
 
 
 #Your current workflow
-#1. Backstage creates repository.
+#1. Backstage creates repository. (template.yaml   )
 #2. GitHub Actions checks out the repository.
 #3. CI builds and publishes Docker image.
 #4. CD updates Helm values.
