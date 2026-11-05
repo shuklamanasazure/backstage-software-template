@@ -106,7 +106,9 @@ jobs:
       - name: Commit and push changes
         shell: bash
         run: |
-          
+          git config user.name "shuklamanasazure"
+          git config user.email "shuklamanasazure@gmail.com"  
+
           git add "charts/${{ values.app_name }}/values-${{ values.app_env }}.yaml"
 
           if git diff --cached --quiet; then
