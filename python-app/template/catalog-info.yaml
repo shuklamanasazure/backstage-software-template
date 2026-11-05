@@ -5,7 +5,7 @@ metadata:
   description: Local Fast API service. - named ${{values.app_name}}
   # Example for optional annotations
   annotations:
-     github.com/project-slug: shuklamanasazure/${{values.app_name}} # The GitHub repository where the source code for this component is stored.
+     github.com/project-slug: shuklamanasazure-backstage/${{values.app_name}} # The GitHub repository where the source code for this component is stored.
      backstage.io/techdocs-ref: dir:. 
      # The location of the documentation for this component, which is used by Backstage TechDocs to generate the documentation site. In this case, the documentation is located in the docs directory
 spec:
