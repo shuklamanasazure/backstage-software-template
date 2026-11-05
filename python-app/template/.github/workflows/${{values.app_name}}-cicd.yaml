@@ -135,7 +135,7 @@ jobs:
         id: create_pr
         shell: bash
         env:
-          GH_TOKEN: ${{ secrets.GH_PAT }}
+          GH_TOKEN: ${{ '${{ secrets.GH_PAT }}' }}
         run: |
           PR_URL=$(gh pr create \
             --base master \
